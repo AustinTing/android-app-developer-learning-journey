@@ -18,12 +18,15 @@
         <activity
             android:name=".AboutActivity"
             android:theme="@android:style/Theme.Dialog" />
-        <activity android:name=".ItemActivity" >
+        <activity
+            android:name=".ColorActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".ItemActivity">
             <intent-filter>
-                <action android:name="com.gmail.austintingwork.android6tutorial.ADD_ITEM"/>
-                <action android:name="com.gmail.austintingwork.android6tutorial.EDIT_ITEM"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.gmail.austintingwork.android6tutorial.ADD_ITEM" />
+                <action android:name="com.gmail.austintingwork.android6tutorial.EDIT_ITEM" />
 
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>
