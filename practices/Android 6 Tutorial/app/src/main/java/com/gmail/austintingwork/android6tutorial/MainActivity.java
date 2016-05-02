@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     // 已選擇項目數量
     private int selectedCount = 0;
 
+    private ItemDAO itemDAO;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +44,18 @@ public class MainActivity extends AppCompatActivity {
 //        MVC
         processViews();
         processControllers();
-        items = new ArrayList<Item>();
-        items.add(new Item(1, new Date().getTime(), Colors.RED, "Android List 練習", "Hello content", "", "", 0, 0, 0));
-        items.add(new Item(2, new Date().getTime(), Colors.BLUE, "Android List 練習2", "Hello content22", "", "", 0, 0, 0));
-        items.add(new Item(3, new Date().getTime(), Colors.GREEN, "Android List 練習3", "Hello content33", "", "", 0, 0, 0));
+
+
+        // 建立資料庫物件
+        itemDAO = new ItemDAO(getApplicationContext());
+
+        // 如果資料庫是空的，就建立一些範例資料
+        // 這是為了方便測試用的，完成應用程式以後可以拿掉
+        if (itemDAO.getCount() == 0) {
+            itemDAO.sample();
+        }
+        // 取得所有記事資料
+        items = itemDAO.getAll();
 
         itemAdapter = new ItemAdapter(this, R.layout.single_item, items);
         listView.setAdapter(itemAdapter);
@@ -180,6 +190,8 @@ public class MainActivity extends AppCompatActivity {
 
                                     if (item.isSelected()) {
                                         itemAdapter.remove(item);
+                                        // 刪除資料庫中的記事資料
+                                        itemDAO.delete(item.getId());
                                     }
 
                                     index--;
@@ -218,9 +230,10 @@ public class MainActivity extends AppCompatActivity {
 
 //            如果新增記事
             if (requestCode == 0) {
-                // 設定記事物件的編號
-                item.setId(items.size() + 1);
-                item.setDatetime(new Date().getTime());
+
+
+                // 新增記事資料到資料庫
+                item = itemDAO.insert(item);
 
                 items.add(item);
 
@@ -232,6 +245,9 @@ public class MainActivity extends AppCompatActivity {
 //                如果data裡面沒有position,回傳-1
                 int position = data.getIntExtra("position", -1);
                 if (position != -1) {
+                    // 修改資料庫中的記事資料
+                    itemDAO.update(item);
+
                     items.set(position, item);
                     itemAdapter.notifyDataSetChanged();
                 }
