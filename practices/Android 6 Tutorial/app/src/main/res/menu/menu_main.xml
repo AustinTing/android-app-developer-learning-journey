@@ -34,6 +34,11 @@
         app:showAsAction="always"
         android:onClick="clickMenuItem"
         />
+    <item
+        android:title="Setting"
+        app:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_preferences"
+        android:onClick="clickPreferences" />
 
 
 </menu>

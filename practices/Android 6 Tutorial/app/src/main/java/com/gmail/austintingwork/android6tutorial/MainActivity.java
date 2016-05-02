@@ -200,6 +200,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void clickPreferences(MenuItem item) {
+        // 啟動設定元件
+        startActivity(new Intent(this, PrefActivity.class));
+    }
+
     //    XML TextView show_app_name onClick
     public void aboutApp(View view) {
         Intent intent = new Intent(this, AboutActivity.class);

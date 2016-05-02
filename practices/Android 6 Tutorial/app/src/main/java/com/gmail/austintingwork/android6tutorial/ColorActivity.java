@@ -2,6 +2,9 @@ package com.gmail.austintingwork.android6tutorial;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,12 +41,29 @@ public class ColorActivity extends Activity {
 
     }
     private class ColorListener implements View.OnClickListener {
+
+
+
         @Override
         public void onClick(View view) {
-            Intent result = getIntent();
-            result.putExtra("colorId", view.getId());
-            setResult(Activity.RESULT_OK, result);
-            finish();
+            String action = ColorActivity.this.getIntent().getAction();
+            if(action != null &&
+                    action.equals("com.gmail.austintingwork.android6tutorial.CHOOSE_COLOR")){
+                // 建立SharedPreferences物件
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(ColorActivity.this).edit();
+                // 儲存預設顏色
+                editor.putInt("DEFAULT_COLOR", view.getId());
+                // 寫入設定值
+                editor.apply();
+                finish();
+            }else {
+                Intent result = getIntent();
+                result.putExtra("colorId", view.getId());
+                setResult(Activity.RESULT_OK, result);
+                finish();
+
+            }
+
         }
     }
 }

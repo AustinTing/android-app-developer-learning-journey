@@ -20,7 +20,14 @@
             android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".ColorActivity"
-            android:theme="@android:style/Theme.Dialog" />
+            android:theme="@android:style/Theme.Dialog">
+            <!-- 加入設定元件啟動用的Action名稱 -->
+            <intent-filter>
+                <action android:name="com.gmail.austintingwork.android6tutorial.CHOOSE_COLOR" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".ItemActivity">
             <intent-filter>
                 <action android:name="com.gmail.austintingwork.android6tutorial.ADD_ITEM" />
@@ -29,6 +36,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".PrefActivity" />
     </application>
 
 </manifest>
