@@ -10,6 +10,7 @@ import java.util.List;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -21,14 +22,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 //        examplePart01();
-        examplePart02();
+//        examplePart02();
+        examplePart03();
 
 
     }
 
-
-     private void examplePart01() {
-
+    private void examplePart01() {
 //        example 1-01
         Observable<String> myObservable1 = Observable.create(
                 new Observable.OnSubscribe<String>() {
@@ -111,12 +111,12 @@ public class MainActivity extends AppCompatActivity {
                         return Observable.from(urls);
                     }
                 })
-                .subscribe(url -> logIt("ex 03: "+url));
+                .subscribe(url -> logIt("ex 03: " + url));
 
 //        example 03 flatMap() 簡化
         query("Hello, world")
                 .flatMap(urls -> Observable.from(urls))
-                .subscribe(url -> logIt("ex 03 簡化: "+url));
+                .subscribe(url -> logIt("ex 03 簡化: " + url));
 
 //        example 04 flatMap() + flatMap()
         query("Hellom world")
@@ -144,6 +144,36 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void examplePart03() {
+//        ex 01 Error Handling
+        Observable.just("Hello")
+                .map(s -> potentialException(s))
+                .map(s -> anotherPotentialException(s))
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onNext(String s) { logIt("onNext "+s); }
+
+                    @Override
+                    public void onCompleted() { logIt("Completed! "); }
+
+                    @Override
+                    public void onError(Throwable e) { logIt(" Ouch!"); }
+                });
+//        ex 03 Subscriptions
+        Subscription subscription = Observable.just("Hello").subscribe(s -> logIt(s));
+        logIt("Subscription = "+ subscription.isUnsubscribed());    //??
+        subscription.unsubscribe();
+        logIt("Subscription = "+ subscription.isUnsubscribed());
+
+    }
+
+
+
+
+    private void logIt(String s) {
+        Log.d(TAG, s);
+    }
+
     Observable<List<String>> query(String text) {
         List<String> urls = new ArrayList<>();
         urls.add("url1");
@@ -153,11 +183,10 @@ public class MainActivity extends AppCompatActivity {
         Observable<List<String>> myObservable = Observable.just(urls);
         return myObservable;
     }
-
-    Observable<String> getTitle(String url){
-        String tittle= url;
+    Observable<String> getTitle(String url) {
+        String tittle = url;
         int rd = Math.random() > 0.5 ? 0 : 1;
-        if (rd  == 1 ) {
+        if (rd == 1) {
             tittle = null;
         }
         Observable<String> observable = Observable.just(tittle);
@@ -165,7 +194,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void logIt(String s) {
-        Log.d(TAG, s);
+    String potentialException(String s) {
+        String st = s;
+        int rd = Math.random() > 0.9 ? 0 : 1;
+        if (rd == 0) {
+            logIt("potentialException");
+            throw new ArithmeticException("potential Exception");
+        }
+        return s ;
+    }
+
+    String anotherPotentialException(String s) {
+        String st = s;
+        int rd = Math.random() > 0.8 ? 0 : 1;
+        if (rd == 0) {
+            logIt("anotherPotentialException");
+            throw new ArithmeticException("potential Another Exception");
+        }
+        return s;
     }
 }
