@@ -13,11 +13,14 @@
 核心
 ----
     
-+   9hr 學習RxJava
-    Grokking RxJava, Part 1~3
-    http://blog.danlew.net/2014/09/15/grokking-rxjava-part-1/
-    範例：
++   9hr 學習RxJava  
+    Grokking RxJava, Part 1~3   
+    http://blog.danlew.net/2014/09/15/grokking-rxjava-part-1/   
+    範例：  
     https://github.com/AustinTing/android-app-developer-learning-journey/tree/master/practices/RxJava/RxJavaTest
++   36hr 設計模式的解析與活用   
+    http://www.books.com.tw/products/001061515  
+    心得：前面讀幾來很有感的，作者遇到的問題自己也有遇到過。但後面沒有幾章比較沒有共鳴，應該是自己程式還寫得不夠多。
     
 前端
 ----
